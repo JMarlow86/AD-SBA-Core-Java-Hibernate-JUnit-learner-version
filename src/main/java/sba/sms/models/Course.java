@@ -29,9 +29,9 @@ public class Course {
     @NonNull
     @Column
     @ToString.Exclude
-    @OneToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
+    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
             CascadeType.DETACH}, fetch = FetchType.EAGER)
-    List<Student> students = new java.util.ArrayList<>();
+    List<Student> students = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

@@ -85,8 +85,8 @@ public class StudentService implements StudentI {
         Session s = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
         try{
-            Student student = s.get(Student.class,email);
-            if(student.getPassword() == password) {
+            Student student = (Student) s.get(Student.class,email);
+            if(student != null && student.getPassword().equals(password)) {
                 System.out.println("Your password is correct");
                 return true;
                 }
