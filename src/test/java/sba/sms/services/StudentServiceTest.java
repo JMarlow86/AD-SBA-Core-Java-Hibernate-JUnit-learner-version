@@ -4,11 +4,13 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import sba.sms.models.Course;
 import sba.sms.models.Student;
 import sba.sms.utils.CommandLine;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -23,7 +25,6 @@ class StudentServiceTest {
         studentService = new StudentService();
         CommandLine.addData();
     }
-
     @Test
     void getAllStudents() {
 
@@ -36,6 +37,9 @@ class StudentServiceTest {
         ));
 
         assertThat(studentService.getAllStudents()).hasSameElementsAs(expected);
-
     }
+
+
+
 }
+

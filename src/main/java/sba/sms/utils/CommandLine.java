@@ -1,16 +1,19 @@
 package sba.sms.utils;
 
+import sba.sms.dao.StudentI;
 import sba.sms.models.Course;
 import sba.sms.models.Student;
 import sba.sms.services.CourseService;
 import sba.sms.services.StudentService;
 
-public class CommandLine {
+import java.util.List;
+
+public class CommandLine implements StudentI {
     private CommandLine() {
         // Utility classes should not have public constructors
     }
 
-    // private static final String PASSWORD = "password";
+    private static final String PASSWORD = " ";
     public static void addData() {
 
         StudentService studentService = new StudentService();
@@ -29,5 +32,36 @@ public class CommandLine {
         courseService.createCourse(new Course("SQL", instructorPhillip));
 
 
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        return null;
+    }
+
+    @Override
+    public void createStudent(Student student) {
+
+
+    }
+
+    @Override
+    public Student getStudentByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public boolean validateStudent(String email, String password) {
+        return false;
+    }
+
+    @Override
+    public void registerStudentToCourse(String email, int courseId) {
+
+    }
+
+    @Override
+    public List<Course> getStudentCourses(String email) {
+        return null;
     }
 }

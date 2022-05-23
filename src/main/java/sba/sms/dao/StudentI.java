@@ -6,8 +6,10 @@ import sba.sms.models.Student;
 import java.util.List;
 
 public interface StudentI {
-    List<Student> getAllStudents();
+
     void createStudent(Student student);
+
+    List<Student> getAllStudents();
 
     Student getStudentByEmail(String email);
 
