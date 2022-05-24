@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.*;
 
-@RequiredArgsConstructor
+
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -19,27 +19,27 @@ public class Student {
 
 
 
-
-    @NonNull
-    @Column(length = 50, unique = false, nullable = false)
-    String name;
-
     @Id
     @NonNull
-    @Column(length = 50, unique = true, nullable = false)
+    @Column(length = 50, nullable = false)
+    String name;
+
+
+    @NonNull
+    @Column(length = 50, nullable = false)
     String email;
 
     @NonNull
-    @Column(length = 50, unique = false, nullable = false)
+    @Column(length = 50, nullable = false)
     String password;
 
-    //public Student(String name, String email, String password){
+        @NonNull
+        public Student(String email, String name, String password){
+        this.email = email;
+        this.name = name;
+        this.password = password;
 
-       // this.name = name;
-        //this.email = email;
-        //this.password = password;
-
-    //}
+    }
 
 
 

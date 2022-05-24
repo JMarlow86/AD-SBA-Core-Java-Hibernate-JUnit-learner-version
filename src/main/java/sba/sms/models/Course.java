@@ -19,11 +19,11 @@ public class Course {
     int id;
 
     @NonNull
-    @Column(length = 50, unique = false, nullable = false)
+    @Column(length = 50, nullable = false)
     String name;
 
     @NonNull
-    @Column(length = 50, unique = false, nullable = false)
+    @Column(length = 50, nullable = false)
     String instructor;
 
     @NonNull

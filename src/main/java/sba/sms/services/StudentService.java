@@ -4,6 +4,7 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import lombok.extern.java.Log;
 import org.hibernate.HibernateException;
+import org.hibernate.query.NativeQuery;
 import sba.sms.dao.StudentI;
 import sba.sms.models.Course;
 import sba.sms.models.Student;
@@ -70,33 +71,32 @@ public class StudentService implements StudentI {
             if(student == null)
                 throw new HibernateException("Student not found.");
             else
-                return new Student();
+                return student;
         } catch (HibernateException exception) {
             exception.printStackTrace();
         } finally {
             s.close();
         }
-       return null;
+       return new Student();
     }
 
     @Override
-    //match email and password to database, also handle exceptions
+
     public boolean validateStudent(String email, String password) {
-        Session s = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try{
-            Student student = (Student) s.get(Student.class,email);
-            if(student != null && student.getPassword().equals(password)) {
-                System.out.println("Your password is correct");
+        Student student = null;
+        try (Session s = HibernateUtil.getSessionFactory().openSession()){
+            student = s.get(Student.class, email);
+            if (student == null) {
+                System.out.println("Student not found!");
                 return true;
-                }
-            } catch (HibernateException exception) {
-                exception.printStackTrace();
-            } finally {
-                s.close();
             }
+            return student.getPassword().equals(password);
+        } catch (HibernateException exception) {
+            exception.printStackTrace();
+        }
         return false;
     }
+
 
     @Override
     //register a course to a student (collection to prevent duplication), also handle commit,rollback, and exceptions
@@ -106,7 +106,7 @@ public class StudentService implements StudentI {
         try {
             tx = s.beginTransaction();
             Student student = s.get(Student.class, email); // accessing student by email parameter
-            if (student.getCourses().contains(courseId)) { // checking if student course list contains course using course Id parameter
+            if (student.getCourses().contains(courseId)){ // checking if student course list contains course using course Id parameter
                 System.out.println("You are already registered to this course");
             } else {
                 CourseService courseService = new CourseService(); //gives access, lets you do actions related to courses
@@ -127,18 +127,16 @@ public class StudentService implements StudentI {
     @Override
     //get all the student courses list (use native query), also handle commit,rollback, and exceptions
     public List<Course> getStudentCourses(String email) {
-        Session s = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
-            TypedQuery<Course> q = s.createNamedQuery("getStudentCourses");
-            q.setParameter("student", email);
-            return q.getResultList();
+        List<Course> coursesList = null;
+        try (Session s = HibernateUtil.getSessionFactory().openSession()){
+            NativeQuery q = s.createNativeQuery("SELECT c.id, c.name, c.instructor FROM Course as c JOIN student_courses as sc ON sc.courses_id = c.id JOIN Student as s ON s.email = sc.student_email WHERE s.email = :email",Course.class);
+            q.setParameter("email",email);
+            coursesList = q.getResultList();
         } catch (HibernateException exception) {
             exception.printStackTrace();
-        } finally {
-            s.close();
         }
-        return null;
+        return coursesList;
     }
-}
+
+    }
+
