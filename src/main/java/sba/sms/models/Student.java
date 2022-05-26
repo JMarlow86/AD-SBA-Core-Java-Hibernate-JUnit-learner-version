@@ -19,12 +19,12 @@ public class Student {
 
 
 
-    @Id
+    //@Id
     @NonNull
     @Column(length = 50, nullable = false)
     String name;
 
-
+    @Id
     @NonNull
     @Column(length = 50, nullable = false)
     String email;

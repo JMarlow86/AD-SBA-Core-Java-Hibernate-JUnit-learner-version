@@ -114,7 +114,7 @@ public class StudentService implements StudentI {
                 List<Course> courseList = student.getCourses();//mirroring what is in the student object made on line 112
                 courseList.add(course);//adds course to the list
                 student.setCourses(courseList);//resets the new course list
-                s.persist(student); //saving the student object to database
+                s.merge(student); //saving the student object to database
                 tx.commit(); }
             } catch(HibernateException exception){
                 if (tx != null) tx.rollback();
